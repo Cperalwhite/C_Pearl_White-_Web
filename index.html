@@ -336,7 +336,6 @@ footer{background:#1a0f13;color:var(--muted);text-align:center;padding:2rem;font
 
 <!-- HERO -->
 <header>
-  <img class="hero-logo-img" id="heroLogoImg" src="" alt="">
   <div class="hero-name" id="heroName">C Pearl<br><span>White</span></div>
   <p class="hero-tagline" id="heroTagline">✦ Premium Cosmetics ✦ Sri Lanka ✦</p>
   <a href="#products" class="hero-btn">Shop Now</a>
@@ -782,7 +781,6 @@ function handleSecretTap(){
 document.addEventListener('DOMContentLoaded',()=>{
   const h=document.querySelector('header .hero-name')||document.querySelector('header');
   if(h) h.addEventListener('click',handleSecretTap);
-  const hi=document.getElementById('heroLogoImg');
   if(hi) hi.addEventListener('click',handleSecretTap);
 });
 let keyBuffer='',keyTimer2=null;
@@ -1178,7 +1176,6 @@ function applyBranding(){
   document.title=`${storeName1} ${storeName2} | Cosmetics`;
 
   const navImg=document.getElementById('navLogoImg');
-  const heroImg=document.getElementById('heroLogoImg');
   const navTxt=document.getElementById('navLogoText');
   const heroName=document.getElementById('heroName');
 
@@ -1186,7 +1183,6 @@ function applyBranding(){
 
   if(logoMode==='logo'&&logoDataUrl){
     navImg.style.display='block'; navTxt.style.display='none';
-    heroImg.style.display='block'; heroName.style.display='none';
   } else if(logoMode==='both'&&logoDataUrl){
     navImg.style.display='block'; navTxt.style.display='block';
     heroImg.style.display='block'; heroName.style.display='block';
