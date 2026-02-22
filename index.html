@@ -382,33 +382,34 @@ footer{background:#1a0f13;color:var(--muted);text-align:center;padding:2rem;font
     <form id="orderForm" novalidate>
 
       <div class="form-group">
-        <label>ඔබේ නම (Your Name)</label>
+        <label>Your Name (ඔබේ නම)</label>
         <input type="text" id="custName" placeholder="Full Name" required>
       </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>Contact No 1</label>
-          <input type="tel" id="custPhone1" placeholder="07X XXXXXXX" maxlength="10" required>
-          <div class="field-error" id="errPhone1">Please enter a valid 10-digit number.</div>
-        </div>
-        <div class="form-group">
-          <label>Contact No 2 <span class="optional-tag">(Optional)</span></label>
-          <input type="tel" id="custPhone2" placeholder="07X XXXXXXX" maxlength="10">
-          <div class="field-error" id="errPhone2">Please enter a valid 10-digit number.</div>
-        </div>
-      </div>
-
+      
       <div class="form-group">
-        <label>Delivery Address</label>
+        <label>Your Address(ඔබේ ලිපිනය)</label>
         <input type="text" id="custAddress" placeholder="No, Street, Village" required>
       </div>
 
       <div class="form-group">
-        <label>Near City / Town</label>
+        <label>Near City / Town (ලගම ගම / නගරය)</label>
         <input type="text" id="custCity" placeholder="Nearest city or town" required>
       </div>
-
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Contact No 1 (දුරකථන අංක 1)</label>
+          <input type="tel" id="custPhone1" placeholder="07X XXXXXXX" maxlength="10" required>
+          <div class="field-error" id="errPhone1">Please enter a valid 10-digit number.</div>
+        </div>
+        
+        <div class="form-group">
+          <label>Contact No 2 (දුරකථන අංක 2) <span class="optional-tag">(Optional)</span></label>
+          <input type="tel" id="custPhone2" placeholder="07X XXXXXXX" maxlength="10">
+          <div class="field-error" id="errPhone2">Please enter a valid 10-digit number.</div>
+        </div>
+      </div>
+     
       <div class="form-group">
         <label>Order Summary</label>
         <div class="summary-box" id="summaryBox">
@@ -424,7 +425,7 @@ footer{background:#1a0f13;color:var(--muted);text-align:center;padding:2rem;font
       </div>
 
       <div class="form-group">
-        <label>Notes / Special Request</label>
+        <label>Remark (වෙනත් කරුණු) </label>
         <textarea id="custNote" placeholder="Shade, quantity, or any special request..."></textarea>
       </div>
 
@@ -442,7 +443,7 @@ footer{background:#1a0f13;color:var(--muted);text-align:center;padding:2rem;font
   <p style="margin-top:1rem;font-size:.75rem;opacity:.5;">© 2025 C Pearl White. All rights reserved.</p>
 </footer>
 
-<a href="https://wa.me/94728626128" class="wa-float" target="_blank">💬</a>
+<a href="https://wa.me/94766154956" class="wa-float" target="_blank">💬</a>
 
 <script>
 // ============================================================
@@ -739,14 +740,14 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
   const msg =
     `🌸 *${storeName1} ${storeName2} - New Order* 🌸\n\n` +
     `👤 *Name:* ${name}\n` +
+    `📍 *Address:* ${address}\n` +
+    `🏙️ *Near City:* ${city}\n\n` +    
     `📱 *Phone 1:* ${p1}\n` +
     (p2?`📱 *Phone 2:* ${p2}\n`:'') +
-    `📍 *Address:* ${address}\n` +
-    `🏙️ *Near City:* ${city}\n\n` +
     `💄 *Items:*\n${itemsList}\n` +
     `🚚 *Delivery:* ${deliveryStr}\n` +
     `💰 *Total: Rs. ${total.toLocaleString()}*\n\n` +
-    `📝 *Notes:* ${note||'None'}\n` +
+    `📝 *Remark:* ${note||'None'}\n` +
     (activeSp?`👤 *Sales Rep:* ${activeSp.name}\n`:'') +
     `\n_Please confirm. Thank you!_ 🙏`;
 
