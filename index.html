@@ -45,7 +45,7 @@ nav{
   background:rgba(42,26,31,0.95);backdrop-filter:blur(10px);
 }
 .nav-brand{display:flex;align-items:center;gap:0.7rem;flex-shrink:0;}
-.nav-logo-img{height:36px;width:auto;object-fit:contain;border-radius:50%;border:3px solid var(--gold);}
+.nav-logo-img{height:36px;width:auto;object-fit:contain;border-radius:50%;border:1px solid var(--gold);}
 .nav-logo-text{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.1rem;white-space:nowrap;}
 .nav-logo-text span{color:#fff;font-style:italic;}
 
@@ -80,7 +80,6 @@ header::before{
 }
 header::after{content:'✦ ✦ ✦';position:absolute;bottom:2rem;color:var(--gold);font-size:0.8rem;letter-spacing:1rem;opacity:0.6;}
 @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.7}50%{transform:translate(-50%,-50%) scale(1.2);opacity:1}}
-.hero-logo-img{width:120px;height:120px;object-fit:contain;border-radius:50%;border:3px solid var(--gold);margin-bottom:1.5rem;display:none;position:relative;z-index:1;}
 .hero-name{font-family:'Playfair Display',serif;font-size:clamp(3rem,10vw,6rem);color:var(--gold);line-height:1.1;position:relative;z-index:1;animation:fadeUp 1s ease forwards;}
 .hero-name span{color:#fff;font-style:italic;}
 .hero-tagline{color:var(--blush);font-size:0.9rem;letter-spacing:.4em;text-transform:uppercase;margin-top:1.2rem;position:relative;z-index:1;animation:fadeUp 1s .2s ease both;}
