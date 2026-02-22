@@ -781,7 +781,6 @@ function handleSecretTap(){
 document.addEventListener('DOMContentLoaded',()=>{
   const h=document.querySelector('header .hero-name')||document.querySelector('header');
   if(h) h.addEventListener('click',handleSecretTap);
-  if(hi) hi.addEventListener('click',handleSecretTap);
 });
 let keyBuffer='',keyTimer2=null;
 document.addEventListener('keydown',e=>{
@@ -1179,16 +1178,14 @@ function applyBranding(){
   const navTxt=document.getElementById('navLogoText');
   const heroName=document.getElementById('heroName');
 
-  if(logoDataUrl){ navImg.src=logoDataUrl; heroImg.src=logoDataUrl; }
+  if(logoDataUrl){ navImg.src=logoDataUrl; }
 
   if(logoMode==='logo'&&logoDataUrl){
     navImg.style.display='block'; navTxt.style.display='none';
   } else if(logoMode==='both'&&logoDataUrl){
     navImg.style.display='block'; navTxt.style.display='block';
-    heroImg.style.display='block'; heroName.style.display='block';
   } else {
-    navImg.style.display='none'; navTxt.style.display='block';
-    heroImg.style.display='none'; heroName.style.display='block';
+    navImg.style.display='none'; navTxt.style.display='block';  
   }
 }
 
