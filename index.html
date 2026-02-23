@@ -1086,7 +1086,7 @@ function buildProductAdmin(){
             <div class="admin-field"><label>Badge (Hot/New/Sale)</label><input type="text" id="pBadge-${p.id}" value="${p.badge||''}"></div>
           </div>
           <div class="admin-row">
-            <div class="admin-field"><label>Description</label><input type="text" id="pDesc-${p.id}" value="${(p.desc||'').replace(/"/g,'&quot;')}"></div>
+            <div class="admin-field"><label>Description (හැම line එකක්ම අලුත් line එකෙන් ලියන්න)</label><textarea id="pDesc-${p.id}" style="width:100%;padding:.6rem .8rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:#fff;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;resize:vertical;min-height:70px;">${(p.desc||'')}</textarea></div>
             <div class="admin-field"><label>Emoji (fallback)</label><input type="text" id="pEmoji-${p.id}" value="${p.emoji}"></div>
           </div>
           <div class="admin-row">
