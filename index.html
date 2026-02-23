@@ -755,7 +755,7 @@ function renderProducts() {
       </div>
       <div class="card-body">
         <div class="card-name">${p.name}</div>
-        <div class="card-desc">${p.desc||''}</div>
+       <div class="card-desc" style="white-space:pre-line;">${p.desc||''}</div>
         <div class="card-footer">
           <div class="price">Rs. ${p.price.toLocaleString()} <small>/piece</small></div>
           <div class="qty-ctrl">
