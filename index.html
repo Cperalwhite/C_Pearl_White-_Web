@@ -479,24 +479,12 @@ footer{background:#1a0f13;color:var(--muted);text-align:center;padding:2rem;font
 // ============================================================
 const ADMIN_PASSWORD = 'lady2025';
 
-let categories = [
-  { id:'lips',     name:'Lips' },
-  { id:'face',     name:'Face' },
-  { id:'eyes',     name:'Eyes' },
-  { id:'nails',    name:'Nails' },
-];
-
-let products = [
-  { id:0, name:'Matte Lipstick Set',  price:1200, emoji:'💄', badge:'Hot',  inStock:true,  freeDelivery:false, catId:'lips', imgData:null, desc:'Long-lasting matte finish. 12 shades available. Vitamin E enriched.' },
-  { id:1, name:'Glow Foundation',     price:2500, emoji:'✨', badge:'',     inStock:true,  freeDelivery:false, catId:'face', imgData:null, desc:'Natural skin-matching formula. SPF 30. All skin types.' },
-  { id:2, name:'Rose Blush Palette',  price:1800, emoji:'🌸', badge:'New',  inStock:true,  freeDelivery:false, catId:'face', imgData:null, desc:'6-shade blush palette with mirror. Buildable coverage.' },
-  { id:3, name:'Eyeshadow Palette',   price:2200, emoji:'👁️', badge:'',     inStock:false, freeDelivery:false, catId:'eyes', imgData:null, desc:'18 shimmer & matte shades. Highly pigmented. Long wear.' },
-  { id:4, name:'Nail Polish Set',     price:800,  emoji:'💅', badge:'Sale', inStock:true,  freeDelivery:true,  catId:'nails',imgData:null, desc:'Quick dry formula. 20 trendy colors. Chip resistant.' },
-  { id:5, name:'Highlighter Powder',  price:1500, emoji:'🌟', badge:'',     inStock:true,  freeDelivery:false, catId:'face', imgData:null, desc:'Blinding glow. 3 shades: champagne, rose gold, bronze.' },
-];
+let categories = [];
+  
+let products = [];
 
 let qtys = {};
-let deliveryCharge = 350;
+let deliveryCharge = 400;
 let freeDeliveryAbove = 0;
 let logoDataUrl = null;
 let logoMode = 'name';
@@ -507,13 +495,7 @@ let currentCat = 'all';
 let nextProductId = 6;
 let nextCatId = 10;
 
-let salesPersons = [
-  { id:'sp1', name:'Kasun',  phone:'0771234567', orders:0 },
-  { id:'sp2', name:'Nimali', phone:'0772345678', orders:0 },
-  { id:'sp3', name:'Ruwan',  phone:'0773456789', orders:0 },
-  { id:'sp4', name:'Dilani', phone:'0774567890', orders:0 },
-  { id:'sp5', name:'Chamath',phone:'0775678901', orders:0 },
-];
+let salesPersons = [];
 let nextSpId = 6;
 let activeSp = null; // currently active salesperson (detected from URL)
 
