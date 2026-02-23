@@ -1045,7 +1045,6 @@ function saveAdmin(){
   renderProducts();
   filterProducts();
   updateCart();
-  document.getElementById('adminOverlay').classList.remove('open');
   showToast('✅ Changes saved!');
 }
 
@@ -1066,8 +1065,7 @@ function getStoreData() {
   };
 }
 function adminLogout() {
-  if (!confirm('Admin Panel එකෙන් Log out වෙන්නද?')) return;
-  document.getElementById('adminOverlay').classList.remove('open');
+  if (!confirm('Admin Panel එකෙන් Log out වෙන්නද?')) return;  
   showToast('🔓 Logged out successfully!');
 }
 function applyStoreData(d) {
