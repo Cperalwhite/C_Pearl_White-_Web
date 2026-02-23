@@ -1065,7 +1065,8 @@ function getStoreData() {
   };
 }
 function adminLogout() {
-  if (!confirm('Admin Panel එකෙන් Log out වෙන්නද?')) return;  
+  if (!confirm('Confirm Log Out?')) return;
+  document.getElementById('adminOverlay').classList.remove('open');
   showToast('🔓 Logged out successfully!');
 }
 function applyStoreData(d) {
