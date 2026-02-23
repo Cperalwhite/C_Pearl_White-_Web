@@ -1029,10 +1029,7 @@ function saveAdmin(){
     p.inStock = document.getElementById('pStock-'+p.id)?.value==='1';
     p.freeDelivery = document.getElementById('pFreeDelivery-'+p.id)?.value==='1';
   });
-
-  // ---- SAVE TO localStorage ----
-  persistSave();
-
+  
   // Save salesperson data
   salesPersons.forEach(sp=>{
     const n=document.getElementById('spName-'+sp.id);
@@ -1040,6 +1037,9 @@ function saveAdmin(){
     if(n) sp.name=n.value;
     if(p) sp.phone=p.value;
   });
+
+  // ---- SAVE TO localStorage ----
+  persistSave();
 
   applyBranding();
   renderCatTabs();
