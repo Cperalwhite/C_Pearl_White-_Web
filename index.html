@@ -755,7 +755,7 @@ function renderProducts() {
       </div>
       <div class="card-body">
         <div class="card-name">${p.name}</div>
-       <div class="card-desc" style="white-space:pre-line;">${p.desc||''}</div>
+       <div class="card-desc">${(p.desc||'').replace(/\n/g,'<br>')}</div>
         <div class="card-footer">
           <div class="price">Rs. ${p.price.toLocaleString()} <small>/piece</small></div>
           <div class="qty-ctrl">
@@ -1170,7 +1170,7 @@ function saveAdmin(){
     p.price   = parseInt(document.getElementById('pPrice-'+p.id)?.value)||0;
     p.catId   = document.getElementById('pCat-'+p.id)?.value||'';
     p.badge   = document.getElementById('pBadge-'+p.id)?.value||'';
-    p.desc    = document.getElementById('pDesc-'+p.id)?.value||'';
+    p.desc    = (document.getElementById('pDesc-'+p.id)?.value||'').replace(/\r\n/g,'\n').replace(/\r/g,'\n');
     p.emoji   = document.getElementById('pEmoji-'+p.id)?.value||'🌸';
     p.inStock = document.getElementById('pStock-'+p.id)?.value==='1';
     p.freeDelivery = document.getElementById('pFreeDelivery-'+p.id)?.value==='1';
