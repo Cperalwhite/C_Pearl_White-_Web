@@ -1281,28 +1281,32 @@ async function persistSave() {
 }
 
 async function persistLoad() {
-  // FIX: Firebase ONLY render — flash නෑ
+  // FIX: Load local data first for instant render
+  let hasLocalData = false;
+  try {
+    const raw = localStorage.getItem('ladyparadise_store');
+    if (raw) {
+      applyStoreData(JSON.parse(raw));
+      hasLocalData = true;
+      // Show local data immediately
+      applyBranding();
+      renderCatTabs();
+      renderProducts();
+      detectSalesPerson();
+    }
+  } catch(e) {}
+
+  // Then try Firebase
   try {
     const fbOk = await waitForFirebase();
     if (!fbOk) {
-      try {
-        const raw = localStorage.getItem('ladyparadise_store');
-        if (raw) applyStoreData(JSON.parse(raw));
-      } catch(e) {}
-      applyBranding(); renderCatTabs(); renderProducts(); detectSalesPerson();
+      if (!hasLocalData) {
+        document.getElementById('productGrid').innerHTML =
+          '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">🌸 Products coming soon...</div>';
+      }
       return;
     }
-
-    const data = await window._fbGet('ladyparadise/config');
-    if (!data) {
-      try {
-        const raw = localStorage.getItem('ladyparadise_store');
-        if (raw) applyStoreData(JSON.parse(raw));
-      } catch(e) {}
-      applyBranding(); renderCatTabs(); renderProducts(); detectSalesPerson();
-      return;
-    }
-
+   
     const images = await window._fbGet('ladyparadise/images');
     if (images) {
       data.products && data.products.forEach(p => {
