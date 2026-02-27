@@ -553,15 +553,13 @@ let activeSp = null;
 // ============================================================
 function waitForFirebase() {
   return new Promise((resolve) => {
-    if (window._fbReady !== undefined) {
-      // Already resolved (ready or failed)
-      resolve(window._fbReady);
-      return;
-    }
+    if (window._fbReady === true) { resolve(true); return; }
+    if (window._fbInitFailed) { resolve(false); return; }
+
     const timeout = setTimeout(() => {
-      console.warn('Firebase timeout — using local data only');
+      console.warn('Firebase timeout');
       resolve(false);
-    }, 3000); // 3 second timeout
+    }, 5000);
 
     window.addEventListener('fbready', () => {
       clearTimeout(timeout);
@@ -1388,9 +1386,18 @@ document.addEventListener('click',e=>{
 });
 
 // ============================================================
-//  INIT
+//  INIT — Firebase ready වෙනකොටම load කරන්න
 // ============================================================
-persistLoad();
+if (window._fbReady === true) {
+  persistLoad();
+} else {
+  applyBranding();
+  renderCatTabs();
+  window.addEventListener('fbready', () => persistLoad(), { once: true });
+  setTimeout(() => {
+    if (!window._fbReady) persistLoad();
+  }, 5000);
+}
 </script>
 </body>
 </html>
