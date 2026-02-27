@@ -1281,31 +1281,56 @@ async function persistSave() {
 }
 
 async function persistLoad() {
-  // FIX: Load local data first for instant render
-  let hasLocalData = false;
-  try {
-    const raw = localStorage.getItem('ladyparadise_store');
-    if (raw) {
-      applyStoreData(JSON.parse(raw));
-      hasLocalData = true;
-      // Show local data immediately
-      applyBranding();
-      renderCatTabs();
-      renderProducts();
-      detectSalesPerson();
-    }
-  } catch(e) {}
-
-  // Then try Firebase
+  // FIX: Firebase ONLY render — flash නෑ
   try {
     const fbOk = await waitForFirebase();
     if (!fbOk) {
-      if (!hasLocalData) {
-        document.getElementById('productGrid').innerHTML =
-          '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">🌸 Products coming soon...</div>';
-      }
+      try {
+        const raw = localStorage.getItem('ladyparadise_store');
+        if (raw) applyStoreData(JSON.parse(raw));
+      } catch(e) {}
+      applyBranding(); renderCatTabs(); renderProducts(); detectSalesPerson();
       return;
     }
+
+    const data = await window._fbGet('ladyparadise/config');
+    if (!data) {
+      try {
+        const raw = localStorage.getItem('ladyparadise_store');
+        if (raw) applyStoreData(JSON.parse(raw));
+      } catch(e) {}
+      applyBranding(); renderCatTabs(); renderProducts(); detectSalesPerson();
+      return;
+    }
+
+    const images = await window._fbGet('ladyparadise/images');
+    if (images) {
+      data.products && data.products.forEach(p => {
+        if (p.imgData === '__ref__' && images['p_'+p.id]) p.imgData = images['p_'+p.id];
+      });
+      if (data.logoDataUrl === '__ref__' && images['logo']) data.logoDataUrl = images['logo'];
+    }
+
+    applyStoreData(data);
+    try { localStorage.setItem('ladyparadise_store', JSON.stringify(data)); } catch(e){}
+
+    applyBranding();
+    renderCatTabs();
+    renderProducts();
+    detectSalesPerson();
+    if(document.getElementById('adminOverlay').classList.contains('open')){
+      buildSpAdmin();
+      buildProductAdmin();
+      buildCatAdmin();
+    }
+  } catch(e) {
+    console.warn('Firebase load failed, using local data:', e);
+    try {
+      const raw = localStorage.getItem('ladyparadise_store');
+      if (raw) applyStoreData(JSON.parse(raw));
+    } catch(e2) {}
+    applyBranding(); renderCatTabs(); renderProducts(); detectSalesPerson();
+  }
 
     const data = await window._fbGet('ladyparadise/config');
     if (!data) return;
