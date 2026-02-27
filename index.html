@@ -899,27 +899,30 @@ function buildSpAdmin(){
   const list = document.getElementById('spAdminList');
   list.innerHTML = '';
   const baseUrl = getSiteUrl();
-  salesPersons.forEach((sp, i) => {
+
+  salesPersons.forEach((sp) => {
     const link = `${baseUrl}?sp=${sp.id}`;
+
     const div = document.createElement('div');
     div.className = 'sp-card';
+
     div.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">
         <div>
-          <span style="color:var(--blush);font-size:.9rem;font-weight:500;" id="spLabel-${sp.id}">${sp.name}</span>
-          <span class="sp-stats">📦 ${sp.orders} orders</span>
+          <span style="color:var(--blush);font-size:.9rem;font-weight:500;">
+            ${sp.name}
+          </span>
+          <div class="sp-stats">📦 Orders: ${sp.orders || 0}</div>
         </div>
-        <button class="del-product-btn" onclick="deleteSp('${sp.id}')">✕</button>
+        <button class="del-product-btn" onclick="deleteSalesPerson('${sp.id}')">✕ Remove</button>
       </div>
-      <div class="admin-row" style="margin-top:.6rem;">
-        <div class="admin-field"><label>Name</label><input type="text" id="spName-${sp.id}" value="${sp.name}"></div>
-        <div class="admin-field"><label>WhatsApp No (07X)</label><input type="tel" id="spPhone-${sp.id}" value="${sp.phone}" maxlength="10"></div>
-      </div>
-      <label style="font-size:.7rem;color:var(--blush);display:block;margin-top:.4rem;letter-spacing:.05em;">SHARE LINK</label>
-      <div class="sp-link-box" onclick="copySpLink('${link}', this)">
+
+      <div class="sp-link-box" onclick="copySpLink('${link}')">
         ${link}
-        <span class="copy-hint">📋 Copy</span>
-      </div>`;
+        <span class="copy-hint">Copy</span>
+      </div>
+    `;
+
     list.appendChild(div);
   });
 }
