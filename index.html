@@ -404,7 +404,7 @@ footer{background:#1a0f13;color:var(--muted);text-align:center;padding:2rem;font
   <div class="nav-center" id="navCenter">
     <a href="#" class="nav-tab active" onclick="showCategory('all',this)">All</a>
   </div>
-  <a href="https://wa.me/94766158946" target="_blank" class="nav-wa">💬 WhatsApp</a>
+  <a href="https://wa.me/94728626128" target="_blank" class="nav-wa">💬 WhatsApp</a>
 </nav>
 
 <!-- SALESPERSON BANNER -->
@@ -561,7 +561,7 @@ function waitForFirebase() {
     const timeout = setTimeout(() => {
       console.warn('Firebase timeout — using local data only');
       resolve(false);
-    }, 8000); // 8 second timeout
+    }, 3000); // 3 second timeout
 
     window.addEventListener('fbready', () => {
       clearTimeout(timeout);
@@ -692,7 +692,7 @@ function getActiveWaNumber(){
     if (num.startsWith('0')) num = '94' + num.slice(1);
     return num;
   }
-  return '94766158946';
+  return '94728626128';
 }
 
 function getSiteUrl(){
@@ -1045,7 +1045,7 @@ function buildSpAdmin(){
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">
         <div>
           <span style="color:var(--blush);font-size:.9rem;font-weight:500;" id="spLabel-${sp.id}">${sp.name}</span>
-          <span class="sp-stats">📦 ${sp.orders||0} orders</span>
+          <span class="sp-stats" id="spOrders-${sp.id}">📦 ${sp.orders||0} orders</span>
         </div>
         <button class="del-product-btn" onclick="deleteSp('${sp.id}')">✕</button>
       </div>
@@ -1199,14 +1199,17 @@ function saveAdmin(){
   });
   
   salesPersons.forEach(sp=>{
-  const n=document.getElementById('spName-'+sp.id);
-  const ph=document.getElementById('spPhone-'+sp.id);
-  if(n) sp.name=n.value;
-  if(ph) sp.phone=ph.value;
-  const lbl=document.getElementById('spLabel-'+sp.id);
-  if(lbl) lbl.textContent=sp.name;
- });
-  
+    const n=document.getElementById('spName-'+sp.id);
+    const ph=document.getElementById('spPhone-'+sp.id);
+    if(n) sp.name=n.value;
+    if(ph) sp.phone=ph.value;
+    // FIX: update label in admin panel immediately
+    const lbl=document.getElementById('spLabel-'+sp.id);
+    if(lbl) lbl.textContent=sp.name;
+    const ord=document.getElementById('spOrders-'+sp.id);
+    if(ord) ord.textContent=`📦 ${sp.orders||0} orders`;
+  });
+
   persistSave();
   applyBranding();
   renderCatTabs();
@@ -1281,14 +1284,13 @@ async function persistSave() {
 }
 
 async function persistLoad() {
-  // FIX: Load local data first for instant render
+  // Load localStorage first — instant render
   let hasLocalData = false;
   try {
     const raw = localStorage.getItem('ladyparadise_store');
     if (raw) {
       applyStoreData(JSON.parse(raw));
       hasLocalData = true;
-      // Show local data immediately
       applyBranding();
       renderCatTabs();
       renderProducts();
@@ -1296,7 +1298,7 @@ async function persistLoad() {
     }
   } catch(e) {}
 
-  // Then try Firebase
+  // Then Firebase — override with latest data
   try {
     const fbOk = await waitForFirebase();
     if (!fbOk) {
@@ -1306,7 +1308,10 @@ async function persistLoad() {
       }
       return;
     }
-   
+
+    const data = await window._fbGet('ladyparadise/config');
+    if (!data) return;
+
     const images = await window._fbGet('ladyparadise/images');
     if (images) {
       data.products && data.products.forEach(p => {
@@ -1327,34 +1332,6 @@ async function persistLoad() {
       buildProductAdmin();
       buildCatAdmin();
     }
-  } catch(e) {
-    console.warn('Firebase load failed, using local data:', e);
-    try {
-      const raw = localStorage.getItem('ladyparadise_store');
-      if (raw) applyStoreData(JSON.parse(raw));
-    } catch(e2) {}
-    applyBranding(); renderCatTabs(); renderProducts(); detectSalesPerson();
-  }
-
-    const data = await window._fbGet('ladyparadise/config');
-    if (!data) return;
-
-    const images = await window._fbGet('ladyparadise/images');
-    if (images) {
-      data.products && data.products.forEach(p => {
-        if (p.imgData === '__ref__' && images['p_'+p.id]) p.imgData = images['p_'+p.id];
-      });
-      if (data.logoDataUrl === '__ref__' && images['logo']) data.logoDataUrl = images['logo'];
-    }
-
-    applyStoreData(data);
-    try { localStorage.setItem('ladyparadise_store', JSON.stringify(data)); } catch(e){}
-
-    // Re-render with fresh cloud data
-    applyBranding();
-    renderCatTabs();
-    renderProducts();
-    detectSalesPerson();
   } catch(e) {
     console.warn('Firebase load failed, using local data:', e);
     if (!hasLocalData) {
