@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="si">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -740,7 +741,7 @@ function renderProducts() {
     card.id = 'card-' + p.id;
 
     const imgContent = p.imgData
-      ? `<img src="${p.imgData}" alt="${p.name}">`
+      ? <img src="${p.imgData}" alt="${p.name}" loading="lazy">`
       : `<span>${p.emoji}</span>`;
 
     // Bottom tag: free delivery takes priority over category label
