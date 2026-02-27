@@ -1199,12 +1199,14 @@ function saveAdmin(){
   });
   
   salesPersons.forEach(sp=>{
-    const n=document.getElementById('spName-'+sp.id);
-    const ph=document.getElementById('spPhone-'+sp.id);
-    if(n) sp.name=n.value;
-    if(ph) sp.phone=ph.value;
-  });
-
+  const n=document.getElementById('spName-'+sp.id);
+  const ph=document.getElementById('spPhone-'+sp.id);
+  if(n) sp.name=n.value;
+  if(ph) sp.phone=ph.value;
+  const lbl=document.getElementById('spLabel-'+sp.id);
+  if(lbl) lbl.textContent=sp.name;
+ });
+  
   persistSave();
   applyBranding();
   renderCatTabs();
