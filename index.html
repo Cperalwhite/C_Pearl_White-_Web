@@ -1300,7 +1300,12 @@ async function persistLoad() {
       return;
     }
 
-    const data = await window._fbGet('ladyparadise/config');
+    // FIX: දෙකම එකවර fetch — delay අඩුයි
+    const [data, images] = await Promise.all([
+      window._fbGet('ladyparadise/config'),
+      window._fbGet('ladyparadise/images')
+    ]);
+
     if (!data) {
       document.getElementById('productGrid').innerHTML =
         '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">🌸 Products coming soon...</div>';
@@ -1308,7 +1313,6 @@ async function persistLoad() {
       return;
     }
 
-    const images = await window._fbGet('ladyparadise/images');
     if (images) {
       data.products && data.products.forEach(p => {
         if (p.imgData === '__ref__' && images['p_'+p.id]) p.imgData = images['p_'+p.id];
