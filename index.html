@@ -1050,7 +1050,7 @@ function buildSpAdmin(){
         <button class="del-product-btn" onclick="deleteSp('${sp.id}')">✕</button>
       </div>
       <div class="admin-row" style="margin-top:.6rem;">
-        <div class="admin-field"><label>Name</label><input type="text" id="spName-${sp.id}" value="${sp.name}"></div>
+        <div class="admin-field"><label>Name</label><input type="text" id="spName-${sp.id}" value="${sp.name}" oninput="const s=salesPersons.find(x=>x.id==='${sp.id}');if(s){s.name=this.value;const l=document.getElementById('spLabel-${sp.id}');if(l)l.textContent=this.value;}"></div>
         <div class="admin-field"><label>WhatsApp No (07X)</label><input type="tel" id="spPhone-${sp.id}" value="${sp.phone}" maxlength="10"></div>
       </div>
       <label style="font-size:.7rem;color:var(--blush);display:block;margin-top:.4rem;letter-spacing:.05em;">SHARE LINK</label>
@@ -1284,33 +1284,29 @@ async function persistSave() {
 }
 
 async function persistLoad() {
-  // Load localStorage first — instant render
-  let hasLocalData = false;
-  try {
-    const raw = localStorage.getItem('ladyparadise_store');
-    if (raw) {
-      applyStoreData(JSON.parse(raw));
-      hasLocalData = true;
-      applyBranding();
-      renderCatTabs();
-      renderProducts();
-      detectSalesPerson();
-    }
-  } catch(e) {}
+  // localStorage සම්පූර්ණයෙන් delete — Firebase data විතරක්
+  try { localStorage.removeItem('ladyparadise_store'); } catch(e) {}
 
-  // Then Firebase — override with latest data
+  // Loading spinner show
+  document.getElementById('productGrid').innerHTML =
+    '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">⏳ Loading...</div>';
+
   try {
     const fbOk = await waitForFirebase();
     if (!fbOk) {
-      if (!hasLocalData) {
-        document.getElementById('productGrid').innerHTML =
-          '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">🌸 Products coming soon...</div>';
-      }
+      document.getElementById('productGrid').innerHTML =
+        '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">🌸 Products coming soon...</div>';
+      applyBranding(); renderCatTabs(); detectSalesPerson();
       return;
     }
 
     const data = await window._fbGet('ladyparadise/config');
-    if (!data) return;
+    if (!data) {
+      document.getElementById('productGrid').innerHTML =
+        '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">🌸 Products coming soon...</div>';
+      applyBranding(); renderCatTabs(); detectSalesPerson();
+      return;
+    }
 
     const images = await window._fbGet('ladyparadise/images');
     if (images) {
@@ -1321,23 +1317,15 @@ async function persistLoad() {
     }
 
     applyStoreData(data);
-    try { localStorage.setItem('ladyparadise_store', JSON.stringify(data)); } catch(e){}
-
-    applyBranding();
-    renderCatTabs();
-    renderProducts();
-    detectSalesPerson();
+    applyBranding(); renderCatTabs(); renderProducts(); detectSalesPerson();
     if(document.getElementById('adminOverlay').classList.contains('open')){
-      buildSpAdmin();
-      buildProductAdmin();
-      buildCatAdmin();
+      buildSpAdmin(); buildProductAdmin(); buildCatAdmin();
     }
   } catch(e) {
-    console.warn('Firebase load failed, using local data:', e);
-    if (!hasLocalData) {
-      document.getElementById('productGrid').innerHTML =
-        '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">🌸 Products coming soon...</div>';
-    }
+    console.warn('Firebase load failed:', e);
+    document.getElementById('productGrid').innerHTML =
+      '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">⚠️ Load failed. Refresh කරන්න.</div>';
+    applyBranding(); renderCatTabs(); detectSalesPerson();
   }
 }
 
